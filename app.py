@@ -16,10 +16,9 @@ METADATA_PATH = os.path.join(NOTEBOOK_DIR, 'kernel-metadata.json')
 KAGGLE_JSON_PATH = os.path.join(BASE_DIR, 'kaggle.json')
 
 # Load Kaggle credentials once when app starts
-with open(KAGGLE_JSON_PATH) as f:
-    creds = json.load(f)
-    os.environ['KAGGLE_USERNAME'] = creds['username']
-    os.environ['KAGGLE_KEY'] = creds['key']
+os.environ['KAGGLE_USERNAME'] = os.getenv('KAGGLE_USERNAME')
+os.environ['KAGGLE_KEY'] = os.getenv('KAGGLE_KEY')
+
 
 @app.route("/")
 def index():
