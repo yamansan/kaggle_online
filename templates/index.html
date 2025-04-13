@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Neural Network Trainer</title>
+</head>
+<body>
+  <h2>Train a Neural Network on a Custom Line</h2>
+
+  <input type="number" id="slope" placeholder="Slope (m)">
+  <input type="number" id="intercept" placeholder="Intercept (b)">
+  <br><br>
+  <button onclick="train()">Train NN</button>
+
+  <p id="status">Status: Waiting...</p>
+  <pre id="output"></pre>
+  <img id="plot" src="" alt="Plot will appear here" style="max-width: 500px; display: none; border: 1px solid gray;" />
+
+  <script>
+    function updateUI(status, outputText = "", showPlot = false, plotURL = "") {
+      document.getElementById("status").textContent = "Status: " + status;
+      document.getElementById("output").textContent = outputText;
+      const img = document.getElementById("plot");
+      if (showPlot) {
+        img.src = plotURL + "?t=" + new Date().getTime();
+        img.style.display = "block";
+      } else {
+        img.style.display = "none";
+      }
+    }
+
+    async function train() {
+      const m = parseFloat(document.getElementById("slope").value);
+      const b = parseFloat(document.getElementById("intercept").value);
+      updateUI("Training neural network...", "");
+
+      const res = await fetch("/train-line", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ m, b })
+      });
+
+      const data = await res.json();
+      updateUI(data.status, data.text || data.error || "No output", !!data.plot_url, data.plot_url || "");
+    }
+  </script>
+</body>
+</html>

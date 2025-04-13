@@ -1,0 +1,9 @@
+{
+  "id": "yamansanghavi/hello-world-trigger",
+  "title": "Hello World Trigger",
+  "code_file": "hello_world.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "accelerator": "GPU"
+}
