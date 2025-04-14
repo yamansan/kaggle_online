@@ -114,18 +114,18 @@ with open("output.txt", "w") as f:
         if os.path.exists(output_dir):
             shutil.rmtree(output_dir)
         os.makedirs(output_dir, exist_ok=True)
+
+        print("🚀 Pushing notebook to Kaggle...")
+        push_result = subprocess.run(
+            ["kaggle", "kernels", "push", "-p", NOTEBOOK_DIR],
+            capture_output=True, text=True
+        )
+        print("STDOUT:", push_result.stdout)
+        print("STDERR:", push_result.stderr)
+
+
         
-        # Repeatedly try to pull Kaggle output and check for plot.png
-        for i in range(8):
-            subprocess.run(["kaggle", "kernels", "output", kernel_slug, "-p", output_dir], capture_output=True, text=True)
-            files = os.listdir(output_dir)
-            print(f"⏳ Attempt {i+1}: Output files = {files}")
-            if "plot.png" in files:
-                print("✅ plot.png FOUND in output")
-                break
-            time.sleep(5)
-        else:
-            print("❌ plot.png NOT FOUND after 8 attempts")
+       
 
 
         # Wait and recheck status until it's COMPLETE
@@ -143,8 +143,19 @@ with open("output.txt", "w") as f:
 
         # Now fetch output
         print("⬇️ Pulling notebook output from Kaggle...")
-        subprocess.run(["kaggle", "kernels", "output", kernel_slug, "-p", output_dir], capture_output=True, text=True)
 
+         # Repeatedly try to pull Kaggle output and check for plot.png
+        for i in range(8):
+            subprocess.run(["kaggle", "kernels", "output", kernel_slug, "-p", output_dir], capture_output=True, text=True)
+            files = os.listdir(output_dir)
+            print(f"⏳ Attempt {i+1}: Output files = {files}")
+            if "plot.png" in files:
+                print("✅ plot.png FOUND in output")
+                break
+            time.sleep(5)
+        else:
+            print("❌ plot.png NOT FOUND after 8 attempts")
+            
         result = {"status": "Training complete ✅"}
 
         log_path = os.path.join(BASE_DIR, "output", "output.txt")
