@@ -42,6 +42,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
+import os
 
 m = {m}
 b = {b}
@@ -82,7 +83,9 @@ plt.title("NN Fit vs True Line")
 plt.xlabel("x")
 plt.ylabel("y")
 plt.grid()
-plt.savefig("plot.png")
+out_path = os.path.join(os.getcwd(), "plot.png")
+plt.savefig(out_path)
+print("✅ plot.png saved at:", out_path)
 
 with open("output.txt", "w") as f:
     f.write(f"Final loss: {{loss.item()}}")
@@ -140,7 +143,6 @@ with open("output.txt", "w") as f:
             copyfile(plot_path, static_plot_path)
             result["plot_url"] = "/static/plot.png"
             print("✅ plot.png saved")
-
 
         return jsonify(result)
 
