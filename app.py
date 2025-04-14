@@ -115,18 +115,7 @@ with open("output.txt", "w") as f:
             shutil.rmtree(output_dir)
         os.makedirs(output_dir, exist_ok=True)
         
-        # Repeatedly try to pull Kaggle output and check for plot.png
-        for i in range(8):
-            subprocess.run(["kaggle", "kernels", "output", kernel_slug, "-p", output_dir], capture_output=True, text=True)
-            files = os.listdir(output_dir)
-            print(f"⏳ Attempt {i+1}: Output files = {files}")
-            if "plot.png" in files:
-                print("✅ plot.png FOUND in output")
-                break
-            time.sleep(5)
-        else:
-            print("❌ plot.png NOT FOUND after 8 attempts")
-
+        subprocess.run(["kaggle", "kernels", "push", "-p", notebook_path], ...)
 
         # Wait and recheck status until it's COMPLETE
         import time
