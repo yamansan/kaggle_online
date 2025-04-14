@@ -156,6 +156,7 @@ with open("output.txt", "w") as f:
         static_path = os.path.join(BASE_DIR, "static")
 
         if os.path.exists(plot_path):
+            print("✅ Copying plot.png to static...")
             static_plot_path = os.path.join(static_path, "plot.png")
             if os.path.exists(static_plot_path):
                 os.remove(static_plot_path)
