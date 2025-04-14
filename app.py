@@ -139,6 +139,8 @@ with open("output.txt", "w") as f:
                 os.remove(static_plot_path)
             copyfile(plot_path, static_plot_path)
             result["plot_url"] = "/static/plot.png"
+            print("✅ plot.png saved")
+
 
         return jsonify(result)
 
