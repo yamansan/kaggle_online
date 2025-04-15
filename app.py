@@ -5,6 +5,8 @@ import subprocess
 from flask import Flask, request, jsonify, render_template
 from shutil import copyfile  # ✅ THIS LINE
 from datetime import datetime
+import nbformat
+
 
 app = Flask(__name__)
 
