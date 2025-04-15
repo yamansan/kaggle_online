@@ -47,6 +47,12 @@ def train_line():
         notebook_json = nbformat.read(f, as_version=4)
 
     notebook_json.cells[0].source = f"m = {m}\nb = {b}"
+    notebook_json.metadata["kernelspec"] = {
+    "display_name": "Python 3",
+    "language": "python",
+    "name": "python3"
+    }
+
 
     with open(NOTEBOOK_PATH, "w") as f:
         nbformat.write(notebook_json, f)
